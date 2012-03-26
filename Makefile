@@ -5,14 +5,15 @@ TARGET = module.so
 SRCS = bing_aerial bing_aerial_road bing_road
 
 all:
+	gcc -c util.c
 	for src in $(SRCS); do\
-		gcc -c -fPIC $$src.c `pkg-config --cflags elementary` && \
-		gcc -shared  -Wl,-soname,$$src.so -o $$src.so  $$src.o `pkg-config --libs elementary`;\
+		gcc -c -fPIC $$src.c util.c util.h `pkg-config --cflags elementary` && \
+		gcc -shared  -Wl,-z,defs -Wl,-soname,$$src.so -o $$src.so  $$src.o util.o -Wl,--as-needed `pkg-config --libs elementary`;\
 	done
 
 install:
 	for src in $(SRCS); do\
-		                gcc -shared -Wl,-z,defs -Wl,-soname,$$src.so -o $$src.so  $$src.o -Wl,--as-needed `pkg-config --libs elementar    y`;\
+		test -z $(PREF)/$$src/$(POST)/ || mkdir -p $(PREF)/$$src/$(POST)/ && install $$src.so $(PREF)/$$src/$(POST)/module.so;\
 		done
 
 clean:
