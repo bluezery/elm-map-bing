@@ -12,7 +12,7 @@ all:
 
 install:
 	for src in $(SRCS); do\
-		test -z $(PREF)/$$src/$(POST)/ || mkdir -p $(PREF)/$$src/$(POST)/ && install $$src.so $(PREF)/$$src/$(POST)/module.so;\
+		                gcc -shared -Wl,-z,defs -Wl,-soname,$$src.so -o $$src.so  $$src.o -Wl,--as-needed `pkg-config --libs elementar    y`;\
 		done
 
 clean:
