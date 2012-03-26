@@ -1,5 +1,6 @@
 #include "Elementary.h"
 #include <Eina.h>
+#include "util.h"
 
 #define __UNUSED__  __attribute__((unused))
 
@@ -19,32 +20,6 @@ EAPI int
 map_module_tile_zoom_max_get(void)
 {
    return 21;
-}
-
-static const char *
-get_url(int zoom, int x, int y)
-{
-   static char buf[22];
-   char *idx;
-   int xq, yq, xr, yr;
-   int w;
-   xq = x;
-   yq = y;
-   memset(buf, 0, sizeof(buf));
-   while (zoom > 0)
-     {
-        xr = xq % 2;
-        yr = yq % 2;
-        xq = xq / 2;
-        yq = yq / 2;
-        w = xr + yr * 2;
-        idx = buf + zoom - 1;
-        w += 0x30;
-        memcpy(idx, &w, 1);
-        zoom--;
-     }
-   printf("%s\n", buf);
-   return buf;
 }
 
 EAPI char *

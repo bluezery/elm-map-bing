@@ -7,7 +7,7 @@ SRCS = bing_aerial bing_aerial_road bing_road
 all:
 	gcc -c util.c
 	for src in $(SRCS); do\
-		gcc -c -fPIC $$src.c util.c util.h `pkg-config --cflags elementary` && \
+		gcc -c -fPIC $$src.c util.c `pkg-config --cflags elementary` && \
 		gcc -shared  -Wl,-z,defs -Wl,-soname,$$src.so -o $$src.so  $$src.o util.o -Wl,--as-needed `pkg-config --libs elementary`;\
 	done
 
